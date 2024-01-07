@@ -25,7 +25,6 @@ def populate_groups(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('LibraryApp', '0001_initial'),
     ]
 
     operations = [

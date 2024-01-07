@@ -11,15 +11,19 @@
 ```
  $  pip install -r requirements.txt
 ```
-4. Create Superuser:
+4. Make Migrations and apply:
+```
+ $  python manage.py migrate auth
+ $  python manage.py makemigrations
+ $  python manage.py migrate
+```
+5. Create Superuser:
 ```
  $  python manage.py createsuperuser --username admin
      (follow instructions)
 ```
-5. Make migrations and runserver:
+6. Run server:
 ```
- $  python manage.py makemigrations
- $  python manage.py migrate
  $  python manage.py runserver
 ```
 5. Open url in browser: [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
