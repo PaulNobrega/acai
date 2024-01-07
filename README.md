@@ -30,5 +30,5 @@
 
 
 ##  Notes
-1. admin and user groups are added in migration 0002
+1. admin and user groups are added in migration 0001
 2. once logged in, the user page will not be visible until your username is associated with the 'admin' group via the admin portal (gear icon in nav bar)
