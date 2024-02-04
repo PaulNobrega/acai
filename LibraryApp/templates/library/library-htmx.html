@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+{% extends "base/base.html" %}
+
+<!-- title block -->
+{% block title_block %}
+    <title>Acai - Library</title>
+{% endblock %}
+<!-- /END title block -->
+
+<!-- import block -->
+{% block import_block %}
+<script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
+{% endblock %}
+<!-- /END title block -->
+
+
+<!-- body block -->
+{% block body_block %}
+{% if books %}
+    <form action="{% url 'library' %}">
+        <input type="submit" value="Switch to JS" />
+    </form>
+
+    <table class="table table-sm table-hover">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Title</th>
+                <th scope="col">Author</th>
+                <th scope="col">Checkout Date</th>
+                <th scope="col">In Stock?</th>
+                <th scope="col">Controls</th>
+            </tr>
+        </thead>
+        {% for book in books %}
+        <tbody hx-target="closest tr" hx-swap="outerHTML">
+            <tr id="book-row-{{ book.id }}">
+                <td>{{book.id}}</td>
+                <td>{{book.title}}</td>
+                <td>{{book.author}}</td>
+                <td>{{book.dateCheckedOut}}</td>
+                <td>{{book.isInStock}}</td>
+                <td>
+                    {% if book.isInStock %}
+                    <div class="btn-toolbar" role="toolbar" id="data-controls">
+                        <button id="checkout-button-{{ book.id }}" hx-vals="js:{pk: {{ book.id }}}" hx-trigger="click" hx-post="{% url 'library-htmx' %}" value="{{ book.id }}" class="book-btn btn-info btn-sm"><i class="bi bi-arrow-right-square-fill"></i></button>
+                    </div>
+                    {% endif %}
+                </td>
+            </tr>
+        </tbody>
+        {% endfor %}
+    </table>
+
+{% else %}
+    <p>No Books Found</p>
+    <a href="/library/populate">Populate</a>
+{% endif %}
+
+{% endblock %}
+<!-- /END body block -->

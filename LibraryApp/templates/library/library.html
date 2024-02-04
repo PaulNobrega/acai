@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% extends "base.html" %}
+{% extends "base/base.html" %}
 
 <!-- title block -->
 {% block title_block %}
@@ -17,6 +17,10 @@
 <!-- body block -->
 {% block body_block %}
 {% if books %}
+    <form action="{% url 'library-htmx' %}">
+        <input type="submit" value="Switch to HTMX" />
+    </form>
+
     <table class="table table-sm table-hover">
         <thead>
             <tr>

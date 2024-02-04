@@ -5,6 +5,7 @@ from . import views as lib_views
 urlpatterns = [
     path('', lib_views.LibraryView.as_view(), name="home"),
     path('library/', lib_views.LibraryView.as_view(), name="library"),
+    path('library-htmx/', lib_views.LibraryHtmxView.as_view(), name="library-htmx"),
     path('library/populate', lib_views.LibraryPopulateView.as_view(), name="library-populate"),
     path('users/', lib_views.UsersView.as_view(), name="users"),
 ]

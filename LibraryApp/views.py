@@ -4,6 +4,7 @@ from django.shortcuts import redirect, render
 from django.views import View
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
+from django.forms.models import model_to_dict
 from .models import Library
 from .forms import UserCreationForm, LoginForm
 
@@ -11,16 +12,35 @@ from .forms import UserCreationForm, LoginForm
 class LibraryView(LoginRequiredMixin, TemplateView):
 
     def get(self, request):
-        template_name = 'library.html'
+        template_name = 'library/library.html'
         all_books = Library.objects.all().values()
         context = {'books': all_books}
         return render(request, template_name, context=context)
 
+class LibraryHtmxView(LoginRequiredMixin, TemplateView):
+
+    def get(self, request):
+        template_name = 'library/library-htmx.html'
+        all_books = Library.objects.all().values()
+        context = {'books': all_books}
+        return render(request, template_name, context=context)
+    
+    def post(self, request):
+        template_name = 'library/partials/row.html'
+        book_id = request.POST['pk']
+        book = Library.objects.get(pk=book_id)
+        book.isInStock = False
+        book.save()
+        book = Library.objects.get(pk=book_id) #dateCheckedOut is an auto_field so query for update and add to return
+        result = model_to_dict(book)
+        result['dateCheckedOut'] = book.dateCheckedOut
+        context = {'book': result}
+        return render(request, template_name, context=context)   
 
 class UsersView(LoginRequiredMixin, UserPassesTestMixin, TemplateView):
 
     def get(self, request):
-        template_name = 'users.html'
+        template_name = 'register/users.html'
         all_users = User.objects.all()
         context = {'users': all_users}
         return render(request, template_name, context=context)
@@ -46,7 +66,7 @@ class UserSignup(TemplateView):
     
     def get(self, request):
         form = UserCreationForm()
-        return render(request, 'signup.html', {'form': form})
+        return render(request, 'register/signup.html', {'form': form})
 
 
 class UserLogin(TemplateView):
@@ -63,7 +83,7 @@ class UserLogin(TemplateView):
     
     def get(self, request):
         form = LoginForm()
-        return render(request, 'login.html', {'form': form})
+        return render(request, 'register/login.html', {'form': form})
 
 
 class UserLogout(LoginRequiredMixin, TemplateView):

@@ -1,0 +1,18 @@
+{% if book %}
+<tr id="book-row-{{ book.id }}">
+    <td>{{book.id}}</td>
+    <td>{{book.title}}</td>
+    <td>{{book.author}}</td>
+    <td>{{book.dateCheckedOut}}</td>
+    <td>{{book.isInStock}}</td>
+    <td>
+        {% if book.isInStock %}
+        <div class="btn-toolbar" role="toolbar" id="data-controls">
+            <button id="checkout-button-{{ book.id }}" hx-vals="{pk: book_id}" hx-trigger="click" hx-post="{% url 'library-htmx' %}" value="{{ book.id }}" class="book-btn btn-info btn-sm"><i class="bi bi-arrow-right-square-fill"></i></button>
+        </div>
+        {% endif %}
+    </td>
+</tr>
+{% else %}
+    <p>ERROR: No Book Found</p>
+{% endif %}

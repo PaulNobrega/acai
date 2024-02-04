@@ -11,8 +11,8 @@ def populate_groups(apps, schema_editor):
     Original migration created using:
         python manage.py makemigrations --empty LibraryApp
     On deploy use commands:
-        python manage.py migrate LibraryApp 0001 --fake
-        python manage.py migrate LibraryApp 0002
+        python manage.py migrate auth
+        python manage.py migrate LibraryApp 0001
     """
 
     # Create user groups
@@ -25,7 +25,6 @@ def populate_groups(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('LibraryApp', '0001_initial'),
     ]
 
     operations = [
